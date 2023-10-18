@@ -1,19 +1,31 @@
-import { quickSort } from "./sort/index.js";
+import { benchmarkSortFunctionsWithSteps, saveToCSV } from './benchmark/index.js'
+import readline from 'readline';
 
-function generateRandomArray(length: number): number[] {
-    const numberList: number[] = [];
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
-    for (let i = 0; i < length; i++) {
-        numberList[i] = Math.random() * 100;
-    }
+rl.question('Length of array: ', (answer) => {
 
-    return numberList;
-}
+    const arrayUpperBound = answer
 
-const generatedArray = generateRandomArray(10);
+    rl.question('Iterations per array per function', (answer) => {
+        const iterationsPerArrayPerFunction = answer
 
-console.log(generatedArray);
+        console.log('Indexing... \n')
 
-const sortedArray = quickSort(generatedArray);
+        const benchmarkResults = benchmarkSortFunctionsWithSteps(Number(arrayUpperBound), Number(iterationsPerArrayPerFunction));
+    
+        for (const result of benchmarkResults) {
+            console.log(`${result.name} took ${result.executionTime.toFixed(2)} ms`);
+        }
+    
+        console.log('Saving to CSV... \n')
+    
+        saveToCSV(benchmarkResults)
+    
+        rl.close();
+    })
 
-console.log(sortedArray);
+});
