@@ -1,4 +1,4 @@
-import { benchmarkSortFunctionsWithSteps, saveToCSV } from './benchmark/index.js'
+import { benchmarkSortFunctionsWithSteps, saveToCSV } from './benchmark/index.js';
 import readline from 'readline';
 
 const rl = readline.createInterface({
@@ -6,26 +6,15 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-rl.question('Length of array: ', (answer) => {
+rl.question('Length of array: ', (arrayLength) => {
+    const arrayUpperBound = Number(arrayLength);
 
-    const arrayUpperBound = answer
+    rl.question('Iterations per array per function: ', (iterations) => {
+        const iterationsPerArrayPerFunction = Number(iterations);
 
-    rl.question('Iterations per array per function', (answer) => {
-        const iterationsPerArrayPerFunction = answer
+        const benchmarkResults = benchmarkSortFunctionsWithSteps(arrayUpperBound, iterationsPerArrayPerFunction);
+        saveToCSV(benchmarkResults);
 
-        console.log('Indexing... \n')
-
-        const benchmarkResults = benchmarkSortFunctionsWithSteps(Number(arrayUpperBound), Number(iterationsPerArrayPerFunction));
-    
-        for (const result of benchmarkResults) {
-            console.log(`${result.name} took ${result.executionTime.toFixed(2)} ms`);
-        }
-    
-        console.log('Saving to CSV... \n')
-    
-        saveToCSV(benchmarkResults)
-    
         rl.close();
-    })
-
+    });
 });

@@ -8,11 +8,13 @@ Sorting is the backbone of computer operations. Unique techniques are employed t
 This is part of the math investigation.
 
 ## Setting up
-1. Install the [latest version of Node.js](https://nodejs.org/en)
-2. Open the terminal in the root directory of the project and run `npm install` to install all packages (including TypeScript)
-3. Build the code into JavaScript using `npm run build`
-4. Run the code using `npm start`
-5. It will open a visualiser to run the functions.
+1. Download the source code under the Code drop down (Download ZIP) or clone it.
+2. Unzip and/or open the folder in any IDE or terminal environment.
+3. Install the [latest version of Node.js](https://nodejs.org/en) if you havent.
+4. Open the terminal in the root directory of the project and run `npm install` to install all packages (including TypeScript).
+5. Build the code into JavaScript using `npm run build`.
+6. Run the code using `npm start`.
+7. It will open a visualiser to run the functions.
 
 ## More reading
 You can read [the full report here](https://docs.google.com/document/d/1VgzxmyugAVIE2hkYgN0pMIJmL2en9Aik_qiUqeDKEjk/edit?usp=sharing), which explains the maths, and logic, behind this project and more widely, sorting algorithms.
