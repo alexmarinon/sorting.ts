@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <canvas id="myChart"></canvas>
+
+    <script>
+        fetch('/data')
+            .then(response => response.text())
+            .then(data => {
+                const lines = data.split('\n').slice(1); // Remove header
+                const sizes = [];
+                const bubbleSortData = [];
+                const insertionSortData = [];
+                const quickSortData = [];
+                const theoreticalNLogN = [];
+                const theoreticalNSquared = [];
+
+                lines.forEach(line => {
+                    const [
+                        size, bubbleSort, insertionSort, quickSort, , nLogN, nSquared
+                    ] = line.split(',');
+
+                    sizes.push(size);
+                    bubbleSortData.push(parseFloat(bubbleSort));
+                    insertionSortData.push(parseFloat(insertionSort));
+                    quickSortData.push(parseFloat(quickSort));
+                    theoreticalNLogN.push(parseFloat(nLogN));
+                    theoreticalNSquared.push(parseFloat(nSquared));
+                });
+
+                const ctx = document.getElementById('myChart').getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: sizes,
+                        datasets: [
+                            {
+                                label: 'Bubble Sort',
+                                data: bubbleSortData,
+                                borderColor: 'red',
+                                fill: false
+                            },
+                            {
+                                label: 'Insertion Sort',
+                                data: insertionSortData,
+                                borderColor: 'blue',
+                                fill: false
+                            },
+                            {
+                                label: 'Quick Sort',
+                                data: quickSortData,
+                                borderColor: 'green',
+                                fill: false
+                            },
+                            {
+                                label: 'Theoretical nLogN',
+                                data: theoreticalNLogN,
+                                borderColor: 'cyan',
+                                fill: false
+                            },
+                            {
+                                label: 'Theoretical nSquared',
+                                data: theoreticalNSquared,
+                                borderColor: 'magenta',
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+    </script>
+</body>
+
+</html>
