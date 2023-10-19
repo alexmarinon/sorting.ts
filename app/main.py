@@ -19,7 +19,6 @@ def plot_sorting_data(data):
     plt.scatter(array_sizes, theoretical_nlogn, color='purple', label='Theoretical nLogN', marker='x')
     plt.scatter(array_sizes, theoretical_nsquared, color='orange', label='Theoretical nSquared', marker='x')
 
-    # Fitting a 3rd degree polynomial
     z_bubble = np.polyfit(array_sizes, bubble_sort_averages, 3)
     z_insertion = np.polyfit(array_sizes, insertion_sort_averages, 3)
     z_quick = np.polyfit(array_sizes, quick_sort_averages, 3)
@@ -37,9 +36,6 @@ def plot_sorting_data(data):
     plt.ylabel("Average Time", fontsize=14)
     plt.legend()
     plt.grid(True, which='both', linestyle='--', linewidth=0.5)
-
-    # Setting axes to linear
-    # Removed plt.yscale("log") and plt.xscale("log")
 
     plt.tight_layout()  # To ensure labels fit within the figure bounds
     plt.show()
