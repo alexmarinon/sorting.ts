@@ -1,5 +1,5 @@
 import { performance } from 'perf_hooks';
-import { quickSort, bubbleSort, insertionSort } from '../sort/index.js'
+import { quickSort, bubbleSort, insertionSort, radixSort } from '../sort/index.js'
 import fs from 'fs';
 
 type SortFunction = (array: number[]) => number[];
@@ -35,7 +35,7 @@ function benchmarkSortFunction(sortFunction: SortFunction, array: number[], runs
 }
 
 function benchMarkSortFunctionList(arraySize: number, iterations: number): BenchmarkResult[] {
-    const functions: SortFunction[] = [quickSort, bubbleSort, insertionSort];
+    const functions: SortFunction[] = [quickSort, bubbleSort, insertionSort, radixSort];
     const array = Array.from({length: arraySize}, () => Math.floor(Math.random() * arraySize));
     return functions.map(func => benchmarkSortFunction(func, array, iterations));
 }
@@ -57,7 +57,7 @@ function getTheoreticalValues(size: number, scaleNLogN: number = 0.00001, scaleN
 }
 
 function saveToCSV(results: BenchmarkResult[]): void {
-    const header = "Array Size,Bubble Sort Average,Insertion Sort Average,Quick Sort Average,Overall Average,Theoretical nLogN,Theoretical nSquared\n";
+    const header = "Array Size,Bubble Sort Average,Insertion Sort Average,Quick Sort Average,Radix Sort Average,Overall Average,Theoretical nLogN,Theoretical nSquared\n";
     let csvContent = header;
     
     const groupedBySize: { [size: number]: BenchmarkResult[] } = {};
@@ -72,11 +72,12 @@ function saveToCSV(results: BenchmarkResult[]): void {
         const bubbleSortResult = groupedBySize[size].find(res => res.name === 'bubbleSort')?.executionTime || 0;
         const insertionSortResult = groupedBySize[size].find(res => res.name === 'insertionSort')?.executionTime || 0;
         const quickSortResult = groupedBySize[size].find(res => res.name === 'quickSort')?.executionTime || 0;
+        const radixSortResult = groupedBySize[size].find(res => res.name === 'radixSort')?.executionTime || 0;
 
-        const overallAverage = (bubbleSortResult + insertionSortResult + quickSortResult) / 3;
+        const overallAverage = (bubbleSortResult + insertionSortResult + quickSortResult + radixSortResult) / 4;
         const { nLogN, nSquared } = getTheoreticalValues(Number(size));
 
-        csvContent += `${size},${bubbleSortResult.toFixed(4)},${insertionSortResult.toFixed(4)},${quickSortResult.toFixed(4)},${overallAverage.toFixed(4)},${nLogN.toFixed(4)},${nSquared.toFixed(4)}\n`;
+        csvContent += `${size},${bubbleSortResult.toFixed(4)},${insertionSortResult.toFixed(4)},${quickSortResult.toFixed(4)},${radixSortResult.toFixed(4)},${overallAverage.toFixed(4)},${nLogN.toFixed(4)},${nSquared.toFixed(4)}\n`;
     }
 
     fs.writeFileSync('./data/benchmark_results.csv', csvContent);

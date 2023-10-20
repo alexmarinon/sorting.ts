@@ -8,6 +8,7 @@ def plot_sorting_data(data):
     bubble_sort_averages = [row[1] for row in data]
     insertion_sort_averages = [row[2] for row in data]
     quick_sort_averages = [row[3] for row in data]
+    radix_sort_averages = [row[4] for row in data]  # Added this line
     theoretical_nlogn = [row[5] for row in data]
     theoretical_nsquared = [row[6] for row in data]
 
@@ -16,20 +17,24 @@ def plot_sorting_data(data):
     plt.scatter(array_sizes, bubble_sort_averages, color='blue', label='Bubble Sort')
     plt.scatter(array_sizes, insertion_sort_averages, color='red', label='Insertion Sort')
     plt.scatter(array_sizes, quick_sort_averages, color='green', label='Quick Sort')
+    plt.scatter(array_sizes, radix_sort_averages, color='cyan', label='Radix Sort')  # Added this line
     plt.scatter(array_sizes, theoretical_nlogn, color='purple', label='Theoretical nLogN', marker='x')
     plt.scatter(array_sizes, theoretical_nsquared, color='orange', label='Theoretical nSquared', marker='x')
 
     z_bubble = np.polyfit(array_sizes, bubble_sort_averages, 3)
     z_insertion = np.polyfit(array_sizes, insertion_sort_averages, 3)
     z_quick = np.polyfit(array_sizes, quick_sort_averages, 3)
+    z_radix = np.polyfit(array_sizes, radix_sort_averages, 3)
 
     p_bubble = np.poly1d(z_bubble)
     p_insertion = np.poly1d(z_insertion)
     p_quick = np.poly1d(z_quick)
+    p_radix = np.poly1d(z_radix)
 
     plt.plot(array_sizes, p_bubble(array_sizes), color='blue', linestyle='dashed')
     plt.plot(array_sizes, p_insertion(array_sizes), color='red', linestyle='dashed')
     plt.plot(array_sizes, p_quick(array_sizes), color='green', linestyle='dashed')
+    plt.plot(array_sizes, p_radix(array_sizes), color='cyan', linestyle='dashed')
 
     plt.title("Sorting Algorithm Average Run Time (ms)", fontsize=16)
     plt.xlabel("Array Size", fontsize=14)
